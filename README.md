@@ -1,3 +1,5 @@
+[README.md](https://github.com/user-attachments/files/32273929/README.md)
+
 # DeepSeek 花费监控浮窗
 
 **在 pi-web 里实时看到 DeepSeek 花了多少钱、还剩多少余额。**
@@ -102,6 +104,22 @@ Claude Code / Cursor / pi 等可以直接把它放进 skills 目录。
 - Python 3.8+（只用标准库；桌面版需要 tkinter）
 - pi-web（网页版需要；不装则用桌面版）
 - 已在 Windows 10/11 实测；Linux / macOS 理论上可用（`install.py` 里有非 Windows 分支）
+
+## 关于这个项目
+
+**这是第三方扩展，不是 pi-web 的官方功能。**
+
+| 组件 | 作者 | 许可 |
+|---|---|---|
+| **[pi-web](https://github.com/agegr/pi-web)** —— 本浮窗注入并适配的 Web UI（`@agegr/pi-web`）| [@agegr](https://github.com/agegr) | MIT |
+| **[pi](https://github.com/earendil-works/pi)** —— 会话日志（token 用量）的来源（`@earendil-works/pi-coding-agent`）| Mario Zechner / [@earendil-works](https://github.com/earendil-works) | MIT |
+| **本 skill**（浮窗组件、数据服务、安装器）| [Keeplearning12345678](https://github.com/Keeplearning12345678) | MIT |
+
+注入方式依赖 pi-web 的页面结构（只有 `/` 一个路由、首页 HTML 在 `.next/server/app/index.html`）。
+pi-web 如果做了大的结构调整，注入可能失效 —— 重跑 `python install.py install` 即可；若仍失效，欢迎提 issue。
+
+计价口径以 [DeepSeek 官方价格页](https://api-docs.deepseek.com/zh-cn/quick_start/pricing) 为准：
+本项目只是把它的峰谷规则实现了一遍，单价与时段随时可在 `config.json` 里改，不用改代码。
 
 ## License
 
