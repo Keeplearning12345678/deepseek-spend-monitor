@@ -1,0 +1,18 @@
+{
+  "_comment": "DeepSeek 花费监控配置。改完保存，重启数据服务生效。",
+  "port": 59992,
+  "currency": "CNY",
+  "poll_seconds": 2,
+  "balance_refresh_seconds": 60,
+  "compact_hint_tokens": 150000,
+  "_comment_compact": "会话上下文超过这个 token 数时，悬停提示会建议 /compact（因为成本大头是每次调用重发上下文）",
+  "peak_weekdays": [0, 1, 2, 3, 4],
+  "peak_hours": [[9, 12], [14, 18]],
+  "prices": {
+    "_comment": "元 / 百万 token，DeepSeek 官方峰谷价（2026-09-10 生效）",
+    "peak": { "hit": 0.04, "miss": 2.0, "out": 8.0 },
+    "offpeak": { "hit": 0.02, "miss": 1.0, "out": 4.0 }
+  },
+  "sessions_glob": "~/.pi/agent/sessions/**/*.jsonl",
+  "models_json": "~/.pi/agent/models.json"
+}
