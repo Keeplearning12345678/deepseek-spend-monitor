@@ -1,3 +1,4 @@
+[SKILL.md](https://github.com/user-attachments/files/32273961/SKILL.md)
 ---
 name: deepseek-spend-monitor
 description: "给 DeepSeek 加一个实时花费/余额浮窗：在 pi-web 页面左上角嵌入一个可拖动的迷你浮窗，显示「剩余余额 / 今日花费 / 累计花费」（配色自动跟随 pi-web 浅色/深色主题，滚动时固定在视口），也可以改为独立桌面悬浮窗。数据来自 DeepSeek 官方余额接口 + pi 会话日志的 token 用量按官方峰谷单价精确计价。当用户提到「DeepSeek 花了多少钱」「还剩多少余额」「余额监控」「花费浮窗/小窗/挂件」「token 花费统计」「想知道每天花了多少」「把这个做成 skill 分享给别人」时使用。"
@@ -232,6 +233,16 @@ python ds_spend_widget.py        # 再开悬浮窗
 5. 浮窗 DOM 用 `position: fixed` + pi-web 的 CSS 变量，因此跟随主题且不随滚动移动
 
 ---
+
+## 依赖与致谢
+
+- **这是第三方扩展，不是 pi-web 的官方功能。** 注入依赖 pi-web 的页面结构（只有 `/` 一个路由、
+  首页 HTML 在 `.next/server/app/index.html`）；pi-web 大改后需重跑一次 `install` 并重启。
+- [pi-web](https://github.com/agegr/pi-web)（`@agegr/pi-web`，MIT）—— 浮窗注入并适配的目标 UI
+- [pi](https://github.com/earendil-works/pi)（`@earendil-works/pi-coding-agent`，MIT，作者 Mario Zechner）
+  —— 会话日志（token 用量）的来源
+- 计价规则以 [DeepSeek 官方价格页](https://api-docs.deepseek.com/zh-cn/quick_start/pricing) 为准，
+  本项目只是把它的峰谷规则实现了一遍；单价与时段可在 `config.json` 里改，不用改代码
 
 ## 提醒用户的三件事
 
