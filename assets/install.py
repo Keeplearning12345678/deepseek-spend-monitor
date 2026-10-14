@@ -227,6 +227,11 @@ def injected_state(pw):
 def start_service():
     if service_alive():
         return True, "已在运行"
+    # 刚 stop 掉时端口可能还没释放（TIME_WAIT）→ 等一下再判，避免"启动失败"的假象
+    for _ in range(10):
+        if not port_busy():
+            break
+        time.sleep(1.0)
     if port_busy():
         return False, "端口 %d 被别的程序占用（改 config.json 的 port）" % PORT
     if not SERVER.exists():

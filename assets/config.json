@@ -2,17 +2,106 @@
   "_comment": "DeepSeek 花费监控配置。改完保存，重启数据服务生效。",
   "port": 59992,
   "currency": "CNY",
-  "poll_seconds": 2,
+  "poll_seconds": 10,
   "balance_refresh_seconds": 60,
   "compact_hint_tokens": 150000,
   "_comment_compact": "会话上下文超过这个 token 数时，悬停提示会建议 /compact（因为成本大头是每次调用重发上下文）",
-  "peak_weekdays": [0, 1, 2, 3, 4],
-  "peak_hours": [[9, 12], [14, 18]],
+  "peak_weekdays": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "peak_hours": [
+    [
+      9,
+      12
+    ],
+    [
+      14,
+      18
+    ]
+  ],
+  "_comment_hours": "peak_weekdays: 0=周一 … 6=周日；peak_hours: 高峰时段（整点，[起, 止)）。其余时间一律空闲价。",
+  "_comment_holidays": "法定节假日：放假期间『全天按空闲价』；makeup 是调休补班日（官方安排里都是周六/周日，本来就是低谷价，列出来只是把规则写明白）。每年国务院办公厅公布下一年安排后，把新一年追加到 holidays 里即可；旧年份可以留着查历史。offpeak_days 是临时的单日全天低谷口子，格式 \"YYYY-MM-DD\"。",
+  "holidays": [
+    {
+      "name": "元旦",
+      "from": "2026-01-01",
+      "to": "2026-01-03",
+      "makeup": [
+        "2026-01-04"
+      ]
+    },
+    {
+      "name": "春节",
+      "from": "2026-02-15",
+      "to": "2026-02-23",
+      "makeup": [
+        "2026-02-14",
+        "2026-02-28"
+      ]
+    },
+    {
+      "name": "清明节",
+      "from": "2026-04-04",
+      "to": "2026-04-06",
+      "makeup": []
+    },
+    {
+      "name": "劳动节",
+      "from": "2026-05-01",
+      "to": "2026-05-05",
+      "makeup": [
+        "2026-05-09"
+      ]
+    },
+    {
+      "name": "端午节",
+      "from": "2026-06-19",
+      "to": "2026-06-21",
+      "makeup": []
+    },
+    {
+      "name": "中秋节",
+      "from": "2026-09-25",
+      "to": "2026-09-27",
+      "makeup": []
+    },
+    {
+      "name": "国庆节",
+      "from": "2026-10-01",
+      "to": "2026-10-07",
+      "makeup": [
+        "2026-09-20",
+        "2026-10-10"
+      ]
+    }
+  ],
+  "offpeak_days": [],
+  "_comment_alert": "命中率低到值得压缩时，在浮窗上显示 ✂️ 提醒图标；右键菜单里可各自临时开关（关掉只影响本机该客户端）",
+  "alert_icon": true,
   "prices": {
     "_comment": "元 / 百万 token，DeepSeek 官方峰谷价（2026-09-10 生效）",
-    "peak": { "hit": 0.04, "miss": 2.0, "out": 8.0 },
-    "offpeak": { "hit": 0.02, "miss": 1.0, "out": 4.0 }
+    "peak": {
+      "hit": 0.04,
+      "miss": 2.0,
+      "out": 8.0
+    },
+    "offpeak": {
+      "hit": 0.02,
+      "miss": 1.0,
+      "out": 4.0
+    }
   },
   "sessions_glob": "~/.pi/agent/sessions/**/*.jsonl",
-  "models_json": "~/.pi/agent/models.json"
+  "models_json": "~/.pi/agent/models.json",
+  "compact_rule": {
+    "_comment": "什么时候建议 /compact：命中率低于 hit_below 且每次调用因未命中的额外支出 ≥ min_waste（元）",
+    "hit_below": 0.95,
+    "min_waste": 0.02,
+    "keep_ratio": 0.25,
+    "summary_tokens": 400
+  }
 }
